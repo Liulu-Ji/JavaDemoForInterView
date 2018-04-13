@@ -1,5 +1,11 @@
 package com.ll.test;
 
+import java.util.LinkedList;
+/**
+ * 二叉树的一些方法
+ * @author N-LiuLu
+ *
+ */
 public class Tree {
 	
 	public static void main(String[] args){
@@ -15,7 +21,7 @@ public class Tree {
 		System.out.print("后序遍历是");
 		lastOrder(n);
 		System.out.println(" ");
-		
+		listElement(n);
 	}
 	
 	/**
@@ -82,13 +88,37 @@ public class Tree {
 		if(n==null){
 			return;
 		}
-		preOrder(n.left);
+		midOrder(n.left);
 		System.out.print(n.data);
-		preOrder(n.right);
+		midOrder(n.right);
 	}
 	
-	public static void listElement(){
-		
+	public static void listElement(Node n){
+		if(n == null){
+			return ;
+		}
+		System.out.print("按照每层的顺序遍历一棵树");
+		LinkedList<Node> list = new LinkedList<Node>();
+		list.add(n);
+		Node current = n;
+		while(current != null){
+			Node temp = list.poll();
+			System.out.print(temp.data);
+			if(current.left !=null){
+				list.add(current.left);
+			}
+			
+			if(current.right !=null){
+				list.add(current.right);
+			}
+			
+			if(list.size()>0){
+				current = list.getFirst();
+			}else{
+				current = null;
+			}
+		}
+		System.out.println("  ");
 	}
 	
 	
