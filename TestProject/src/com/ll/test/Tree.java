@@ -1,5 +1,6 @@
 package com.ll.test;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 /**
  * 二叉树的一些方法
@@ -8,11 +9,14 @@ import java.util.LinkedList;
  */
 public class Tree {
 	
+	//private static final BY_
+	
+	
 	public static void main(String[] args){
 		String pre = "ABCDEFGHK";
 		String mid = "BDCAEHGKF";
 		Node n  = returnToTree(pre,mid);
-		System.out.print("先序遍历是");
+		/*System.out.print("先序遍历是");
 		preOrder(n);
 		System.out.println(" ");
 		System.out.print("中序遍历是");
@@ -21,7 +25,8 @@ public class Tree {
 		System.out.print("后序遍历是");
 		lastOrder(n);
 		System.out.println(" ");
-		listElement(n);
+		listElement(n);*/
+		listElementDeep(n);
 	}
 	
 	/**
@@ -34,16 +39,16 @@ public class Tree {
 		if(pre.length() == 0 || mid.length() == 0){
 			return null;
 		}
-		int rootPosInPre = 0;
-		Node root = genNode(pre,mid,rootPosInPre);
+		Node root = genNode(pre,mid);
 		return root;
 	}
 	
 	
-	public static Node genNode(String pre,String mid,int rootPosInPre){
+	public static Node genNode(String pre,String mid){
 		if(pre.length() == 0 || mid.length() == 0){
 			return null;
 		}
+		int rootPosInPre = 0;
 		String data = String.valueOf(pre.charAt(rootPosInPre));
 		int posInMid = mid.indexOf(data);
 		String leftMid = mid.substring(0,posInMid);
@@ -51,8 +56,8 @@ public class Tree {
 		String leftPre = pre.substring(rootPosInPre+1, rootPosInPre+1+leftMid.length());
 		String rightPre = pre.substring(rootPosInPre+1+leftPre.length());
 		Node result = new Node(data);
-		result.left = returnToTree(leftPre,leftMid);
-		result.right = returnToTree(rightPre,rightMid);
+		result.left = genNode(leftPre,leftMid);
+		result.right = genNode(rightPre,rightMid);
 		return result;
 	}
 	
@@ -92,7 +97,10 @@ public class Tree {
 		System.out.print(n.data);
 		midOrder(n.right);
 	}
-	
+	/**
+	 * 广度优先遍历   利用了先进先出的原理
+	 * @param n
+	 */
 	public static void listElement(Node n){
 		if(n == null){
 			return ;
@@ -121,6 +129,29 @@ public class Tree {
 		System.out.println("  ");
 	}
 	
-	
+	/**
+	 * 深度优先策略遍历   栈的先进后出
+	 * @param n
+	 */
+	public static void listElementDeep(Node n){
+		if(n == null){
+			return ;
+		}
+		System.out.print("按照从左至右深度优先的方式遍历一棵树");
+		 ArrayDeque<Node> stack = new  ArrayDeque<Node>();
+		stack.push(n);
+		
+		while(!stack.isEmpty()){
+			Node curr = stack.getFirst();
+			System.out.print(stack.pop().data);
+			if(curr.right!=null){
+				stack.push(curr.right);
+			}
+			if(curr.left!=null){
+				stack.push(curr.left);
+			}
+			
+		}
+	}
 	
 }
