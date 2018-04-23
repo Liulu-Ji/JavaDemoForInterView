@@ -13,8 +13,8 @@ public class Tree {
 	
 	
 	public static void main(String[] args){
-		String pre = "ABCDEFGHK";
-		String mid = "BDCAEHGKF";
+		String pre = "ABDC";
+		String mid = "DBAC";
 		Node n  = returnToTree(pre,mid);
 		/*System.out.print("先序遍历是");
 		preOrder(n);
@@ -26,7 +26,8 @@ public class Tree {
 		lastOrder(n);
 		System.out.println(" ");
 		listElement(n);*/
-		listElementDeep(n);
+		//listElementDeep(n);
+		System.out.println(isAVL(n));
 	}
 	
 	/**
@@ -152,6 +153,40 @@ public class Tree {
 			}
 			
 		}
+	}
+	
+	/**
+	 * 判断是不是平衡二叉树（所有节点的左右子树都是一棵平衡二叉树，且左右子数的高度差不大于1）
+	 * 为了减少每个节点被遍历的次数，采用后序遍历的思想，先计算左右子树的深度，在计算根节点的深度
+	 */
+	public static boolean isAVL(Node n){
+		if(getDepthForIsAVL(n) == -1){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	//-1表示不是平衡二叉树
+	public static int getDepthForIsAVL(Node n){
+		if(n == null){
+			return 0;
+		}
+		int left = getDepthForIsAVL(n.getLeft());
+		int right = getDepthForIsAVL(n.getRight());
+		
+		if(left == -1){
+			return -1;
+		}
+		
+		if(right == -1){
+			return -1;
+		}
+		
+		if(Math.abs(left-right)>1){
+			return -1;
+		}
+		//return Math.max(left, right)+1;
+		return left>right?left+1:right+1;
 	}
 	
 }
